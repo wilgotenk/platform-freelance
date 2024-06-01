@@ -16,13 +16,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: install PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 8.3
+
       - name: copy .env file
         run: |
-          cp .env.example .env
+          cp .env.cli .env
 
       - name: Install composer
         run: |
