@@ -33,4 +33,4 @@ class CreateTeamInvitationsTable extends Migration
     {
         Schema::dropIfExists('team_invitations');
     }
-}
+};
