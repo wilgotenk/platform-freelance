@@ -21,10 +21,6 @@ jobs:
       - name: copy .env file
         run: |
           cp .env.ci .env
-      
-      - name: Generate key
-        run: |
-          php artisan key:generate
 
       - name: Install composer
         run: |
