@@ -1,4 +1,4 @@
-name: Test
+name: Laravel CI/CD
 
 on:
   push:
@@ -12,14 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: vendor
-          key: composer-${{ hashFiles('**/composer/lock')}}
-          restore-keys: |
-            composer-
 
       - name: install PHP
         uses: shivammathur/setup-php@v2
@@ -29,12 +21,23 @@ jobs:
       - name: copy .env file
         run: |
           cp .env.ci .env
+      
+      - name: Generate key
+        run: |
+          php artisan key:generate
 
       - name: Install composer
         run: |
-          composer install --no-interaction
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       
-      - name: Run test suite
+      - name: Run test
         run: |
           php artisan test
       
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('**/composer/lock')}}
+          restore-keys: |
+            composer-
