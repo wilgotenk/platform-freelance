@@ -87,9 +87,18 @@ jobs:
         run: |
           chmod -R 777 storage bootstrap/cache
 
-      - name: Run Artisan
+      - name: Run Tests
         run: |
           php artisan test
+
+  deploy:
+    name: Migration and Deployment
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Connect to Database
+        run: |
           php artisan optimize
           php artisan migrate --force
           php artisan db:seed --force
