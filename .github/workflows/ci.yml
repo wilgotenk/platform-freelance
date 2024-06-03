@@ -40,6 +40,12 @@ jobs:
         ports:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Verify MySQL connection
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uroot -proot -e "SHOW DATABASES"
 
   tests:
     name: Run tests
@@ -73,19 +79,12 @@ jobs:
       - name: Generate key
         run: php artisan key:generate
 
-      - name: Run Migration
-        run: php artisan migrate -v
-        env:
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+      - name: Migrate database
+        run: php artisan migrate --force
 
-      - name: Test with phpunit
-        run: vendor/bin/phpunit --coverage-text
-        env:
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-
-      # - name: Run test
-      #   run: |
-      #     php artisan test
+      - name: Run test
+        run: |
+          php artisan test
 
       - name: Cache composer dependencies
         uses: actions/cache@v2
