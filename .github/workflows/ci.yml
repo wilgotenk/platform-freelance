@@ -78,6 +78,11 @@ jobs:
 
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
+      
+      - name: Run Migration
+        run: php artisan migrate -v
+        env:
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
       - name: Run test
         run: |
