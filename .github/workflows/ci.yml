@@ -32,14 +32,14 @@ jobs:
           name: assets
           path: public
           retention-days: 3
-  
+
   connect-database:
     name: Connect Database
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     services:
       postgres:
-        image: postgres
+        image: postgis/postgis
         env:
           POSTGRES_USER: ${{ secrets.DB_USERNAME }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
@@ -98,7 +98,7 @@ jobs:
           DB_CONNECTION: pgsql
           DB_HOST: ${{ secrets.DB_HOST }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      
+
       - name: Migrate and Seed Database
         run: |
           php artisan migrate 
