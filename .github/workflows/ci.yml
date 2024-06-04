@@ -104,3 +104,5 @@ jobs:
       - name: Run Tests
         run: |
           php artisan test
+        env: 
+          APP_ENV: production
