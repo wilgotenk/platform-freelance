@@ -40,20 +40,20 @@ jobs:
     #   DB_USERNAME: ${{ secrets.DB_USERNAME }}
     #   DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
-    # services:
-    #   postgres:
-    #     image: postgres:latest
-    #     env:
-    #       POSTGRES_USER: ${{ secrets.DB_USERNAME }}
-    #       POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-    #       POSTGRES_DB: ${{ secrets.DB_DATABASE }}
-    #     ports:
-    #       - 5432:5432
-    #     options: |
-    #       --health-cmd pg_isready 
-    #       --health-interval 10s 
-    #       --health-timeout 5s 
-    #       --health-retries 3
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DB_DATABASE }}
+        ports:
+          - 5432:5432
+        options: |
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 3
 
     steps:
       - name: Fetch built assets from Artifacts
