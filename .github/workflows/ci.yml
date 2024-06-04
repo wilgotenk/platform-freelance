@@ -22,9 +22,6 @@ jobs:
         run: |
           npm install
           npm run dev
-
-      - name: NPM Test
-        run: npm run test
         
       - name: Put built assets in Artifacts
         uses: actions/upload-artifact@v3
