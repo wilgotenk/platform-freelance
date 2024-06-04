@@ -58,7 +58,7 @@ jobs:
       
       - name: Connect Database
         run: |
-          psql ${{ secrets.DATABASE_URL }} \dt
+          psql ${{ secrets.DATABASE_URL }} -c '\dt'
 
       - name: install PHP
         uses: shivammathur/setup-php@v2
@@ -82,10 +82,13 @@ jobs:
         run: |
           chmod -R 777 storage bootstrap/cache
 
-      - name: Run Artisan
+      - name: Run test
         run: |
-          php artisan test
           php artisan optimize
+          php artisan test
+      
+      - name: Migrate and Seed Database
+        run: |
           php artisan migrate 
           php artisan db:seed
         env:
