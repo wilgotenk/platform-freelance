@@ -60,13 +60,21 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Fetch built assets from Artifacts
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: assets
           path: public
 
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('**/composer/lock')}}
+          restore-keys: |
+            composer-
 
       - name: install PHP
         uses: shivammathur/setup-php@v2
@@ -96,7 +104,6 @@ jobs:
           php artisan optimize
         env:
           DB_CONNECTION: pgsql
-          DB_HOST: ${{ secrets.DB_HOST }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Migrate and Seed Database
