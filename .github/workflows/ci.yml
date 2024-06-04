@@ -88,11 +88,12 @@ jobs:
         run: |
           chmod -R 777 storage bootstrap/cache
     
-      - name: Connect to Database
+      - name: Test and Migrate
         run: |
           php artisan optimize
           php artisan migrate --force
           php artisan db:seed --force
+          php artisan test
         env:
           APP_ENV: production
           DB_CONNECTION: pgsql
@@ -100,9 +101,3 @@ jobs:
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-     
-      - name: Run Tests
-        run: |
-          php artisan test
-        env: 
-          APP_ENV: production
