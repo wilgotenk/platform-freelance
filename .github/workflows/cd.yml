@@ -25,7 +25,7 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-scripts --no-progress --no-interaction
-      
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
@@ -43,7 +43,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
       - name: Deploy to Vercel
-        run: vercel deploy --yes --force --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel --yes --force --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
