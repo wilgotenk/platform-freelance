@@ -25,6 +25,9 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-scripts --no-progress --no-interaction
+      
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
 
       - name: Migrate and Seed Database
         run: |
@@ -40,10 +43,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25 #deploy
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-args: "--prod" #Optional
+        run: vercel deploy --force --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
