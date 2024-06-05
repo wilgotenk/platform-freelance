@@ -43,7 +43,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
       - name: Deploy to Vercel
-        run: vercel deploy --yes --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --yes --force --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
