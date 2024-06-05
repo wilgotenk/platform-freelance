@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - trigger-cd
+      - CD
 
 jobs:
   deploy:
@@ -44,6 +44,6 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-args: "--force --prod" #Optional
+          vercel-args: "--prod" #Optional
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}

@@ -116,6 +116,5 @@ jobs:
       - name: Trigger CD
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.PAT_TOKEN }}
-          repository: wilgotenk/platform-freelance
-          event-type: trigger-cd
+          repository: ${{ github.repository }}
+          event-type: CD
