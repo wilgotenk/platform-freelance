@@ -1,0 +1,44 @@
+name: Laravel CD
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Laravel CI"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.2
+        extensions: mbstring, dom, fileinfo, pgsql
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-scripts --no-progress --no-interaction
+
+    - name: Install Vercel CLI
+      run: npm install -g vercel
+
+    - name: Migrate and Seed Database
+      run: |
+        php artisan migrate 
+        php artisan db:seed
+      env:
+        DB_CONNECTION: pgsql
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_DATABASE: ${{ secrets.DB_DATABASE }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+
+    - name: Deploy to Vercel
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      run: vercel --prod --token $VERCEL_TOKEN --confirm --cwd public

@@ -1,4 +1,4 @@
-name: Laravel CI/CD
+name: Laravel CI
 
 on:
   push:
@@ -103,19 +103,8 @@ jobs:
 
       - name: Run test
         run: |
+          php artisan optimize  
           php artisan test
-          php artisan optimize
         env:
           DB_CONNECTION: pgsql
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
-      - name: Migrate and Seed Database
-        run: |
-          php artisan migrate 
-          php artisan db:seed
-        env:
-          DB_CONNECTION: pgsql
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
