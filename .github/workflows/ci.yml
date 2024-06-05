@@ -104,7 +104,7 @@ jobs:
       - name: Run test
         run: |
           php artisan test
-          php artisan optimize  
+          php artisan optimize
         env:
           DB_CONNECTION: pgsql
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
